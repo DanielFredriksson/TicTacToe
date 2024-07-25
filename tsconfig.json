@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "module": "ESNext",        // Changed from "CommonJS" to "ESNext" for ES6 modules
+        "target": "ES2020",        // or higher, depending on your environment
+        "moduleResolution": "node",// Resolves modules using Node.js-style resolution
+        "esModuleInterop": true,   // Allows default imports from modules with no default export
+        "outDir": "./dist",        // Output directory for compiled files
+        "strict": true,            // Enable all strict type-checking options
+        "forceConsistentCasingInFileNames": true
+    },
+    "include": [
+      "src/**/*" // Ensure your source folder is correctly identified here
+    ],
+    "exclude": [
+      "node_modules", // Standard practice to exclude node_modules
+      "dist"          // Exclude the dist directory to avoid recursive compilation
+    ]
+}
