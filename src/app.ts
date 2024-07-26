@@ -35,7 +35,6 @@ const allLineIndices = [
 let moveCounter = 0;
 
 const findGameWinningMove = (player: Player) => {
-  console.log('------')
   for (const lineIndices of allLineIndices) {
     const [a, b, c] = lineIndices;
     const currentLine = [board[a], board[b], board[c]];
@@ -68,10 +67,6 @@ enum GameState {
 }
 
 const getGameState = () => {
-  if (moveCounter >= 9) {
-    return GameState.DRAW;
-  }
-
   for (const lineIndices of allLineIndices) {
     const [a, b, c] = lineIndices;
     const currentLine = [board[a], board[b], board[c]];
@@ -82,6 +77,10 @@ const getGameState = () => {
     if (currentLine.every((value) => value === 'O')) {
       return GameState.PLAYER2_WON
     }
+  }
+
+  if (moveCounter >= 9) {
+    return GameState.DRAW;
   }
 
   return GameState.ONGOING;
@@ -108,43 +107,57 @@ const calculateComputerMove = (board: Board, computerPlayer: Player): number => 
   const opponent: Player = computerPlayer === 'X' ? 'O' : 'X';
   const center = 4;
 
-  // Rule 1: Take the center if it's available
-  if (board[center] === '-') {
-    console.log('Computer choosing center');
-    return center;
-  }
-
-  // Rule 2: Win if possible
+  // Rule 1: Win if possible
   const winningMove = findGameWinningMove(computerPlayer);
   if (winningMove !== -1) {
-    console.log('Computer thinks winning move is at', winningMove);
     return winningMove;
   }
 
-  // Rule 3: Block opponent's winning move
+  // Rule 2: Block opponent's winning move
   const blockingMove = findGameWinningMove(opponent);
   if (blockingMove !== -1) {
-    console.log('Computer thinks blocking move is at', blockingMove);
     return blockingMove; 
   }
 
-  // Rule 4: Game determining corner move if Computer chose center and Player chose a side instead of corner
+  // Rule 3: Game determining corner move if Computer chose center and Player chose a side instead of corner
   if (moveCounter === 2 && board[center] === computerPlayer) {
-    console.log('Computer thinks game determining corner move might be possible');
     const playerChoseSide = sideIndices.find(index => board[index] === opponent);
 
     if (playerChoseSide) {
-      console.log('Player chose side', playerChoseSide, 'Computer will try to take a corner');
       const gameDeterminingMove = cornerIndicesOfSideIndice[playerChoseSide].find(boardIndex => board[boardIndex] === '-');
-      console.log('Computer thinks game determining corner move is at', gameDeterminingMove);
-      if (gameDeterminingMove !== undefined) return gameDeterminingMove;
+      if (gameDeterminingMove !== undefined) {
+        return gameDeterminingMove;
+      } 
     }
   }
 
-  // Rule 5: If opponent took the center on their first move, the computer should take a corner
+  // Rule 4: If opponent took the center on their first move, the computer should take a corner
   if (moveCounter === 1 && board[center] === opponent) {
-    console.log('Computer thinks opponent took center on first move, will try to take a corner at 0');
     return 0;
+  }
+
+  // Rule 5: Take the center if it's available
+  if (board[center] === '-') {
+    return center;
+  }
+
+  // Rule 6: Block opponents line intersections
+  const emptyIndices = board.map((value, index) => value === '-' ? index : -1).filter((value) => value !== -1);
+  const intersectionThreat = emptyIndices.find(emptyIndex => {
+    const linesContainingEmptyIndex = allLineIndices.filter(lineIndices => lineIndices.includes(emptyIndex));
+
+    const linesWithExclusivelyOpponentsMoves = linesContainingEmptyIndex.filter(lineIndices => {
+      const containsOpponentsMove = lineIndices.some(index => board[index] === opponent);
+      const doesntContainComputersMove = !lineIndices.some(index => board[index] === computerPlayer);
+
+      return containsOpponentsMove && doesntContainComputersMove;
+    });
+
+    return linesWithExclusivelyOpponentsMoves.length >= 2;
+  });
+
+  if (intersectionThreat) {
+    return intersectionThreat;
   }
 
   // Doesn't matter what computer picks at this point, as draw is inevitable if both players play optimally
@@ -171,7 +184,7 @@ const handleEndGame = (gameState?: GameState): string => {
       resetGame();
       break;
 
-    case GameState.PLAYER1_WON:
+    case GameState.PLAYER2_WON:
       output += 'Player 2 won!\n';
       output += getBoard();
       resetGame();
@@ -186,9 +199,13 @@ const handleEndGame = (gameState?: GameState): string => {
   return output;
 }
 
+router.get('/resetBoard', expressAsyncHandler(async (req, res) => {
+  resetGame();
+  res.send('Board reset');
+}));
+
 router.get('/addMoveComputer', expressAsyncHandler(async (req, res) => {
   const move = calculateComputerMove(board, moveCounter % 2 === 0 ? 'X' : 'O');
-  console.log('Computer wants to move', move);
 
   addMove(move);
 
@@ -198,7 +215,9 @@ router.get('/addMoveComputer', expressAsyncHandler(async (req, res) => {
 }));
 
 router.get('/addMovePlayer', expressAsyncHandler(async (req, res) => {
+  console.log('Request query', req.query);
   const attemptedMove = parseInt(req.query.x as string, 10);
+  console.log('Player wants to move', attemptedMove);
   let output = '';
   let gameState = undefined;
 
@@ -207,7 +226,7 @@ router.get('/addMovePlayer', expressAsyncHandler(async (req, res) => {
 
     gameState = getGameState();
   } else {
-    output += 'Invalid move\n';
+    output += 'Invalid move!\n';
   }
 
   output += handleEndGame(gameState);
@@ -216,12 +235,12 @@ router.get('/addMovePlayer', expressAsyncHandler(async (req, res) => {
 }));
 
 const requestLoggerMiddleware = (req: Request, res: Response, next: NextFunction): void => {
-  const now = new Date();
-  console.log(`[${now.toISOString()}] ${req.method} ${req.path}`);
+  // const now = new Date();
+  // console.log(`[${now.toISOString()}] ${req.method} ${req.path}`);
   next();
 };
 
-const initializeExpressApp = async () => {
+const initializeExpressApp = () => {
   const app = express();
   app.use(express.json());
   app.use(requestLoggerMiddleware);
@@ -229,8 +248,10 @@ const initializeExpressApp = async () => {
   return app;
 };
 
-const app = await initializeExpressApp();
+const app = initializeExpressApp();
 
 app.listen(PORT, () => {
   console.log(`Example app listening on http://localhost:${PORT}/`)
 });
+
+export default app;
