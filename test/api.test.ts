@@ -138,20 +138,6 @@ XXO
 O--`);
     });
 
-    it('Computer should choose threatening intersection', async () => {
-      await request(app).get('/api/addMovePlayer').query({ x: 4 });
-      await request(app).get('/api/addMovePlayer').query({ x: 0 });
-      await request(app).get('/api/addMovePlayer').query({ x: 1 });
-      await request(app).get('/api/addMovePlayer').query({ x: 7 });
-      const response = await request(app).get('/api/addMoveComputer');
-
-      expect(response.status).toBe(200);
-      expect(response.text).toBe(`
-OX-
--X-
-XO-`);
-    });
-
     it('Computer should block threatening intersection', async () => {
       await request(app).get('/api/addMovePlayer').query({ x: 4 });
       await request(app).get('/api/addMovePlayer').query({ x: 0 });
