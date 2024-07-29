@@ -9,7 +9,7 @@ describe('GET /api', () => {
 
   describe('OpenAPI Validator', () => {
     it('openapi.yaml should be valid', async () => {
-      // Not sure why 'prototype' is needed here, but it validates the file as expected
+      // Not sure why 'prototype' is needed here, but it is, and it validates the file as expected
       await SwaggerParser.prototype.validate('./openapi.yaml');
     });
 
