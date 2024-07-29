@@ -72,13 +72,14 @@ const initializeExpressApp = () => {
   );
   app.use('/api', router);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   app.use((err: any, req: Request, res: Response) => {
     res.status(err.status || 500).json({
       message: err.message,
       errors: err.errors,
     });
   });
+
   return app;
 };
 
