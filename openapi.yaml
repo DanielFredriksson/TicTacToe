@@ -57,7 +57,7 @@ paths:
                 example: |
                   ---
                   -X-
-                  ---
+                  --O
 
 components:
   schemas:
