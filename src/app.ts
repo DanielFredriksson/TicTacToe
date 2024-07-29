@@ -16,7 +16,7 @@ router.get(
   '/resetBoard',
   expressAsyncHandler(async (req, res) => {
     Game.resetGame();
-    res.send('Board reset');
+    res.send('Board reset!');
   }),
 );
 

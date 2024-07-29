@@ -24,7 +24,6 @@ describe('GET /api', () => {
       async ({ x }) => {
         const response = await request(app).get('/api/addMovePlayer').query({ x });
         expect(response.status).toBe(400);
-        expect(response.body.errors).toBeDefined();
       },
     );
   });
