@@ -54,8 +54,6 @@ class GameBoard {
 
   isMoveViable(index: number) {
     return this.board[index] === '-';
-
-    const adf = 3;
   }
 
   addMove(index: number) {

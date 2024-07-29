@@ -10,7 +10,8 @@
     "watch-ts": "tsc -w",
     "watch-node": "nodemon dist/src/app.js",
     "test": "jest dist/test --forceExit",
-    "prettier-write": "prettier --write \"src/**/*.ts\""
+    "prettier-write": "prettier --write \"src/**/*.ts\"",
+    "prepare": "husky"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [

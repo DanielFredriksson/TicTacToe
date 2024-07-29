@@ -1,0 +1,7 @@
+echo "\nPre-commit hook started!\n"
+
+echo "Running lint..."
+npm run lint -- --fix
+
+echo "Formatting code with prettier..."
+npm run prettier-write
