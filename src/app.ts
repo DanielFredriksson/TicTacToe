@@ -29,7 +29,6 @@ router.get('/addMoveComputer', expressAsyncHandler(async (req, res) => {
 router.get('/addMovePlayer', expressAsyncHandler(async (req, res) => {
   console.log('Request query', req.query);
   const attemptedMove = parseInt(req.query.x as string, 10);
-  console.log('Player wants to move', attemptedMove);
   let output = '';
 
   if (Game.isMoveViable(attemptedMove)) {
