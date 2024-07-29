@@ -184,6 +184,7 @@ class GameBoard {
             break;
       
           case GameState.PLAYER2_WON:
+            // Random Change
             output += 'Player 2 won!\n';
             output += this.getBoard();
             this.resetGame();
