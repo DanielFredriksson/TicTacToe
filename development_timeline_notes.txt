@@ -1,0 +1,100 @@
+Planning Session 1 (45 minutes)
+- What do I want?
+    - Basic Idea:
+        - Typescript Nodejs express server that can run locally and utilizes endpoints to play TicTacToe. Game data only exists temporarily and is reset when the server is reset.
+        - Code Details:
+            - Typescript
+            - Linting
+            - Maintainable code
+        - CI/CD
+            - Tests that are executed on github when a PR is created, blocks PR if tests fail.
+            - Could deploy somewhere on merge?
+        - Project Management & Presentation:
+            - Make planning sessions, estimate timelines, present as part of challenge at the end.
+            - Graphs of estimated vs actual time including confidence?
+            - Git commits?
+        - Graphics?
+            - Simple text graphics utilizing “-“ and “|”  to make a board.
+        - Input validation?
+            - swagger openapi file with validator, acts as readme on github page?
+        - Trello board?
+            - Maybe easier to present notes rather than screenshots of trelloboards?
+    - Tasks:
+        - Construct MVP Github repo with express server using typescript and has linting done
+        - Construct endpoints:
+            - Add move (Player X)
+            - Add move (Computer)
+                - Computer always chooses middle as 1st move and corner as 3rd move if player has chosen middle of side as 2nd move.
+            - Reset Game
+        - Return current board on endpoint exit.
+        - Determine tests:
+            - Making sequential moves should yield expected board states, compare with long string or output
+            - Game should be reset automatically when move is made?
+            - Input validation tests to make sure validator acts as expected?
+        - Attach github actions and run tests on pull request.
+    - Timeline & Estimations:
+        - MVP Github Repo:
+            - Estimated time 4 hours.
+            - Confidence: High.
+        - Construct Endpoints:
+            - Estimated time 8 hours.
+            - Confidence: Medium.
+        - Display board AKA graphics:
+            - Estimated time 8 hours.
+            - Confidence: High.
+        - Construct Tests:
+            - Estimated time 16 hours.
+            - Confidence: Medium.
+        - Github Actions Tests on Pull Request:
+            - Estimated time: 4 hours.
+            - Confidence: Low, never used github actions before.
+        - Misc Polish:
+            - Estimated time: 4 hours.
+            - Confidence: Medium.
+        - Discuss the project.
+            - Estimated time: ??? Consider later on
+            - Challenges?
+    - TODO:
+        - Start with “MVP Github Repo”, Note down if estimations are expected to be increased. Do atleast some further deconstruction of task upon start. Consider efficient git commit messages.
+
+“MVP Github Repo” 
+- Estimated 4 hours.
+- Time Passed: 2 hours
+- TODO:
+    - Basic Setup
+    - Typescript
+    - Linting
+    - Proper commit sections
+- Done:
+    - Core setup, express endpoint called
+    - Linting
+    - watch-node and watch-ts allows for writing code while app is alive
+
+“Construct Endpoints” 
+- Estimated time 8 hours
+- Time passed: 5h.
+- Breakdown:
+    - MVP Add Player Move
+        - Use one dimensional array as grid for simplicity with width
+    - Computer Move Logic
+        - the computer should always choose center if possible. The computer should always choose an index that it wins on if possible. The computer should always choose a move that if the player should take it he would win (ie the computer should block the players moves). If the player chooses center first then the computer should choose a corner. If the computer chose center as first move and player didn't choose corner, it should choose a corner next to the players move. If the computer can select a move next to two of its previous moves it should.
+        - Some flaws will probably emerge during testing.
+- Notes:
+    - Should have expected computer ai will to take more time than player move
+    - Computers facing each other is a hassle, move into query param autoComputerMove which makes the computer only move after a player has moved?
+    - Linking on jest should warn if .only or .skip exists
+    - Husky pre-commit linting? or is it fine if github actions does this later?
+    - This task and “Test” task got merged in the end due to pragmatism
+
+“Github Actions tests on pull request”
+- Time Passed: 20 minutes
+
+“Prettier code”
+- Time Passed: 15 minutes
+
+“OpenAPI swagger + input validation”
+- Time Passed: 40 minutes
+
+“ReadMe”
+- 
+
