@@ -15,7 +15,6 @@ describe('GET /api', () => {
 
     it('Should accept valid input', async () => {
       const response = await request(app).get('/api/addMovePlayer').query({ x: 0 });
-      console.log(response.body);
       expect(response.status).toBe(200);
     });
 
