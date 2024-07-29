@@ -11,39 +11,50 @@ const router = Router();
 
 const Game = new GameBoard();
 
-router.get('/resetBoard', expressAsyncHandler(async (req, res) => {
-  Game.resetGame();
-  res.send('Board reset');
-}));
+router.get(
+  '/resetBoard',
+  expressAsyncHandler(async (req, res) => {
+    Game.resetGame();
+    res.send('Board reset');
+  }),
+);
 
-router.get('/addMoveComputer', expressAsyncHandler(async (req, res) => {
-  const move = Game.calculateComputerMove();
-  
-  Game.addMove(move);
+router.get(
+  '/addMoveComputer',
+  expressAsyncHandler(async (req, res) => {
+    const move = Game.calculateComputerMove();
 
-  const output = Game.handleEndGame();
+    Game.addMove(move);
 
-  res.send(output);
-}));
+    const output = Game.handleEndGame();
 
-router.get('/addMovePlayer', expressAsyncHandler(async (req, res) => {
-  console.log('Request query', req.query);
-  const attemptedMove = parseInt(req.query.x as string, 10);
-  let output = '';
+    res.send(output);
+  }),
+);
 
-  if (Game.isMoveViable(attemptedMove)) {
-    Game.addMove(attemptedMove);
-  } else {
-    output += 'Invalid move!\n';
-  }
+router.get(
+  '/addMovePlayer',
+  expressAsyncHandler(async (req, res) => {
+    console.log('Request query', req.query);
+    const attemptedMove = parseInt(req.query.x as string, 10);
+    console.log('Player wants to move', attemptedMove);
+    let output = '';
 
-  output += Game.handleEndGame();
-  
-  res.send(output);
-}));
+    if (Game.isMoveViable(attemptedMove)) {
+      Game.addMove(attemptedMove);
+    } else {
+      output += 'Invalid move!\n';
+    }
+
+    output += Game.handleEndGame();
+
+    res.send(output);
+  }),
+);
 
 const requestLoggerMiddleware = (req: Request, res: Response, next: NextFunction): void => {
   // console.log(`[${now.toISOString()}] ${req.method} ${req.path}`);
+
   next();
 };
 
@@ -58,7 +69,7 @@ const initializeExpressApp = () => {
 const app = initializeExpressApp();
 
 app.listen(PORT, () => {
-  console.log(`Example app listening on http://localhost:${PORT}/`)
+  console.log(`Example app listening on http://localhost:${PORT}/`);
 });
 
 export default app;
