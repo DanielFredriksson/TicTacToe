@@ -3,9 +3,6 @@ import expressAsyncHandler from 'express-async-handler';
 import * as OpenApiValidator from 'express-openapi-validator';
 import GameBoard from './board';
 
-// https://www.qualisys.com/about/careers/challenge/tic-tac-toe/
-// https://github.com/DanielFredriksson/TicTacToe
-
 const PORT = 3000;
 
 const router = Router();

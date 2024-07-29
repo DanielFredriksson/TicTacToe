@@ -1,5 +1,5 @@
 # Abstract
-This repository is my submission to the Tic Tac Toe Challenge.
+This repository is my submission to the Qualisys [Tic Tac Toe Challenge](https://www.qualisys.com/about/careers/challenge/tic-tac-toe/).
 
 # Usage
 Navigate to root of project, then run the following in a terminal:
