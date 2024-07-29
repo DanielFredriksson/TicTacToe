@@ -58,7 +58,6 @@ class GameBoard {
 
   addMove(index: number) {
     this.board[index] = this.moveCounter % 2 === 0 ? 'X' : 'O';
-    // console.log('board modified', thboard);
     this.moveCounter++;
   }
 
