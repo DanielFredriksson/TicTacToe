@@ -19,8 +19,11 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Build App
+        run: npm run build
+
       - name: Run Linter
-        run: npm run lint  # Ensure your package.json has a lint script
+        run: npm run lint
 
       - name: Run Tests
-        run: npm test  # Ensure your package.json has a test script
+        run: npm test
