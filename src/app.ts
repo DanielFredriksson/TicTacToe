@@ -1,11 +1,12 @@
 import express, { Router, Request, Response, NextFunction } from 'express';
 import expressAsyncHandler from 'express-async-handler';
+import * as OpenApiValidator from 'express-openapi-validator';
 import GameBoard from './board';
 
 // https://www.qualisys.com/about/careers/challenge/tic-tac-toe/
 // https://github.com/DanielFredriksson/TicTacToe
 
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 const router = Router();
 
@@ -62,7 +63,22 @@ const initializeExpressApp = () => {
   const app = express();
   app.use(express.json());
   app.use(requestLoggerMiddleware);
+  app.use(
+    OpenApiValidator.middleware({
+      apiSpec: './openapi.yaml',
+      validateRequests: true,
+      validateResponses: false,
+    }),
+  );
   app.use('/api', router);
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  app.use((err: any, req: Request, res: Response) => {
+    res.status(err.status || 500).json({
+      message: err.message,
+      errors: err.errors,
+    });
+  });
   return app;
 };
 

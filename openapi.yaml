@@ -1,0 +1,63 @@
+openapi: 3.0.0
+info:
+  title: Tic Tac Toe API
+  version: 1.0.0
+  description: API for managing a Tic Tac Toe game.
+
+servers:
+  - url: http://localhost:3000/api
+
+paths:
+  /resetBoard:
+    get:
+      summary: Reset the game board
+      responses:
+        '200':
+          description: Board reset successfully
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Board reset
+
+  /addMoveComputer:
+    get:
+      summary: Add a move by the computer
+      responses:
+        '200':
+          description: Returns the result of the move and checks for game end
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Move added by computer, game continues
+
+  /addMovePlayer:
+    get:
+      summary: Add a move by the player
+      parameters:
+        - in: query
+          name: x
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 8
+          required: true
+          description: The index of the move attempted by the player
+      responses:
+        '200':
+          description: Returns the result of the player's move and checks for game end
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Move added, game continues
+
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message describing what went wrong.

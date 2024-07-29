@@ -26,6 +26,7 @@
     "@types/supertest": "^6.0.2",
     "express": "^4.19.2",
     "express-async-handler": "^1.2.0",
+    "express-openapi-validator": "^5.2.0",
     "supertest": "^7.0.0"
   },
   "engines": {
@@ -43,6 +44,7 @@
     "lint-staged": "^15.2.7",
     "nodemon": "^3.1.4",
     "prettier": "^3.3.3",
+    "swagger-parser": "^10.0.3",
     "ts-jest": "^29.2.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4",
