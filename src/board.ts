@@ -67,7 +67,7 @@ class GameBoard {
         this.board[i] = '-';
         }
         this.moveCounter = 0;
-    };
+    }
     
     getBoard() {
         return this.board.reduce((acc, curr, index) => {
@@ -160,7 +160,7 @@ class GameBoard {
         }
       
         return GameState.ONGOING;
-    };
+    }
 
       handleEndGame() {
         const gameState = this.getGameState();
