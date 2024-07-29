@@ -43,7 +43,6 @@ router.get('/addMovePlayer', expressAsyncHandler(async (req, res) => {
 }));
 
 const requestLoggerMiddleware = (req: Request, res: Response, next: NextFunction): void => {
-  // const now = new Date();
   // console.log(`[${now.toISOString()}] ${req.method} ${req.path}`);
   next();
 };
